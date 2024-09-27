@@ -17,10 +17,17 @@
         <div id="results" style="display: none;">
             <h2>Quiz Results</h2>
             <canvas id="radarChart"></canvas>
+            <div class="additional-comments">
+                <h3>Additional Comments</h3>
+                <textarea id="additionalComments" rows="4" placeholder="Add any additional comments here..."></textarea>
+            </div>
+            <button id="downloadPDF">Download PDF Report</button>
             <button id="restart">Restart Quiz</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
