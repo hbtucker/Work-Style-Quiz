@@ -139,6 +139,14 @@ function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
+    // Add logo to the PDF
+    const logoImg = new Image();
+    logoImg.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20transparent-FhMhho8ZZjU7Tb7OkKUzbDUJJ88bwd.png';
+    logoImg.onload = function() {
+        const imgWidth = 30;
+        const imgHeight = (logoImg.height * imgWidth) / logoImg.width;
+        doc.addImage(logoImg, 'PNG', 10, 10, imgWidth, imgHeight);
+
     doc.setFontSize(20);
     doc.text("Quiz Results", 105, 15, null, null, "center");
 
