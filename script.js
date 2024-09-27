@@ -42,7 +42,6 @@ let userAnswers = [];
 
 const questionEl = document.getElementById("question");
 const choicesEl = document.getElementById("choices");
-const submitBtn = document.getElementById("submit");
 const quizEl = document.getElementById("quiz");
 const resultsEl = document.getElementById("results");
 const restartBtn = document.getElementById("restart");
@@ -62,21 +61,9 @@ function loadQuestion() {
 }
 
 function selectChoice(index) {
-    const buttons = choicesEl.getElementsByTagName("button");
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove("selected");
-    }
-    buttons[index].classList.add("selected");
-}
+    userAnswers.push(index);
 
-function submitAnswer() {
-    const selectedButton = choicesEl.querySelector(".selected");
-    if (!selectedButton) return;
-
-    const answerIndex = Array.from(choicesEl.children).indexOf(selectedButton);
-    userAnswers.push(answerIndex);
-
-    if (answerIndex === quizData[currentQuestion].correctAnswer) {
+    if (index === quizData[currentQuestion].correctAnswer) {
         score += quizData[currentQuestion].weight;
     }
 
@@ -157,19 +144,9 @@ function generatePDF() {
 
     doc.setFontSize(12);
     const maxScore = quizData.reduce((sum, q) => sum + q.weight, 0);
-    doc.text(`Total Score: ${score.toFixed(2)} out of ${maxScore.toFixed(2)}`, 20, 30);
-
-    let yPos = 40;
-    quizData.forEach((question, index) => {
-        doc.setFontSize(10);
-        doc.text(`Q${index + 1}: ${question.question} (Weight: ${question.weight})`, 20, yPos);
-        doc.text(`Your answer: ${question.choices[userAnswers[index]]}`, 30, yPos + 10);
-        doc.text(`Correct answer: ${question.choices[question.correctAnswer]}`, 30, yPos + 20);
-        doc.text(`Points earned: ${userAnswers[index] === question.correctAnswer ? question.weight : 0}`, 30, yPos + 30);
-        yPos += 40;
-    });
 
     // Add additional text to the PDF report
+    let yPos = 50;
     doc.setFontSize(12);
     doc.text("Additional Information", 20, yPos);
     yPos += 10;
@@ -192,10 +169,21 @@ function generatePDF() {
         doc.addPage();
         doc.addImage(imgData, "PNG", 55, 20, imgWidth, imgHeight);
         doc.save("quiz_results.pdf");
+
+        // Notify harry@culture-coach.org about the PDF download
+        notifyPDFDownload();
     });
 }
 
-submitBtn.addEventListener("click", submitAnswer);
+function notifyPDFDownload() {
+    // In a real-world scenario, you would use a server-side API to send notifications.
+    // For this example, we'll simulate the notification process with a console log.
+    console.log("Notifying harry@culture-coach.org about PDF download");
+    
+    // You can replace this with an actual API call to your backend
+    // which would handle the notification process securely.
+}
+
 restartBtn.addEventListener("click", restartQuiz);
 downloadPDFBtn.addEventListener("click", generatePDF);
 
