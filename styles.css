@@ -1,5 +1,7 @@
 body {
-    font-family: 'Poppins,Sans-serif';
+    font-family: 'Poppins';
+    font-style: light;
+    font-weight: 200;
     line-height: 1.6;
     margin: 0;
     padding: 0;
