@@ -23,6 +23,9 @@ body {
 
 h1, h2 {
     text-align: center;
+    font-family: 'Poppins';
+    font-style: light;
+    font-weight: 200;
 }
 
 #choices {
