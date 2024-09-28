@@ -162,7 +162,7 @@ function generatePDF() {
         doc.text("Work Style Profile Results", 105, 25, null, null, "center");
 
         doc.setFontSize(12);
-        let yPos = 60;
+        let yPos = 50;
         doc.text("Your Work Style Profile:", 20, yPos);
         yPos += 10;
 
