@@ -152,7 +152,7 @@ function generatePDF() {
 
     // Add logo to the PDF
     const logoImg = new Image();
-    logoImg.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20transparent-FhMhho8ZZjU7Tb7OkKUzbDUJJ88bwd.png';
+    logoImg.src = 'logo';
     logoImg.onload = function() {
         const imgWidth = 30;
         const imgHeight = (logoImg.height * imgWidth) / logoImg.width;
