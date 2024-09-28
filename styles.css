@@ -89,7 +89,8 @@ button:hover {
 }
 
 #downloadPDF:hover {
-    background-color: #ffc433;
+    background-color: #1f1f1f;
+	color: white;
 }
 
 #restart {
@@ -97,5 +98,6 @@ button:hover {
 }
 
 #restart:hover {
-    background-color: #ffc433;
+    background-color: #1f1f1f;
+	color: white;
 }
