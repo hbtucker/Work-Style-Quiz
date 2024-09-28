@@ -152,7 +152,7 @@ function generatePDF() {
 
     // Add logo to the PDF
     const logoImg = new Image();
-    logoImg.src = 'logo';
+    logoImg.src = 'logo.png';
     logoImg.onload = function() {
         const imgWidth = 30;
         const imgHeight = (logoImg.height * imgWidth) / logoImg.width;
