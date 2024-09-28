@@ -164,7 +164,7 @@ function generatePDF() {
         doc.setFontSize(12);
         let yPos = 40;
         doc.text("Your Work Style Profile:", 20, yPos);
-        yPos += 20;
+        yPos += 10;
 
         const categories = Object.keys(scores);
         const maxScore = quizData.length * 3; // Assuming max weight is 3
