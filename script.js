@@ -152,11 +152,12 @@ function generatePDF() {
 
     // Add logo to the PDF
     const logoImg = new Image();
-    logoImg.src = 'logo.png';
+    logoImg.src = 'logo';
     logoImg.onload = function() {
         const imgWidth = 30;
         const imgHeight = (logoImg.height * imgWidth) / logoImg.width;
-        doc.addImage(logoImg, 'PNG', 10, 10, imgWidth, imgHeight);
+        const pageWidth = doc.internal.pageSize.getWidth();
+        doc.addImage(logoImg, 'PNG', pageWidth - imgWidth - 10, 10, imgWidth, imgHeight);
 
         doc.setFontSize(20);
         doc.text("Work Style Profile Results", 105, 25, null, null, "center");
