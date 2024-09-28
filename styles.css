@@ -28,9 +28,13 @@ body {
     margin-bottom: 20px;
 }
 
-h1, h2 {
+h1 {
     text-align: center;
-    font-weight: 600;
+    font-weight: 400;
+}
+h2 {
+    text-align: center;
+    font-weight: 200;
 }
 
 #choices {
