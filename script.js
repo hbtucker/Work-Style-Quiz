@@ -3,8 +3,8 @@ const quizData = [
         question: "How do you prefer to communicate with your team?",
         choices: [
             { text: "Face-to-face meetings", weight: { Collaborative: 3, Traditional: 2, Innovative: 1 } },
-            { text: "Video calls", weight: { Collaborative: 2, Remote: 3, Innovative: 2 } },
-            { text: "Instant messaging", weight: { Remote: 3, Innovative: 2, Collaborative: 1 } },
+            { text: "Video or audio calls", weight: { Collaborative: 2, Remote: 3, Innovative: 2 } },
+            { text: "Messaging apps, e.g. Teams, Slack", weight: { Remote: 3, Innovative: 2, Collaborative: 1 } },
             { text: "Email", weight: { Traditional: 3, Remote: 2, Collaborative: 1 } }
         ],
         category: "Communication"
@@ -25,17 +25,17 @@ const quizData = [
             { text: "Written reports", weight: { Traditional: 3, Remote: 2, Collaborative: 1 } },
             { text: "One-on-one meetings", weight: { Traditional: 2, Collaborative: 3, Innovative: 1 } },
             { text: "Peer reviews", weight: { Collaborative: 3, Innovative: 2, Remote: 1 } },
-            { text: "Continuous digital feedback", weight: { Innovative: 3, Remote: 3, Traditional: 1 } }
+            { text: "Continuous feedback online, e.g. reactions, message threads, document comments", weight: { Innovative: 3, Remote: 3, Traditional: 1 } }
         ],
         category: "Feedback"
     },
     {
         question: "How do you prefer to manage your work schedule?",
         choices: [
-            { text: "Fixed 9-5 hours", weight: { Traditional: 3, Collaborative: 2, Remote: 1 } },
-            { text: "Flexible hours", weight: { Remote: 3, Innovative: 2, Traditional: 1 } },
-            { text: "Task-based, not time-based", weight: { Innovative: 3, Remote: 2, Traditional: 1 } },
-            { text: "Collaborative scheduling with the team", weight: { Collaborative: 3, Innovative: 2, Traditional: 1 } }
+            { text: "Fixed hours, e.g. 9-5", weight: { Traditional: 3, Collaborative: 2, Remote: 1 } },
+            { text: "Flexible, manage work around my week", weight: { Remote: 3, Innovative: 2, Traditional: 1 } },
+            { text: "Task or results based, irrespective of time", weight: { Innovative: 3, Remote: 2, Traditional: 1 } },
+            { text: "Collaborative scheduling with my team", weight: { Collaborative: 3, Innovative: 2, Traditional: 1 } }
         ],
         category: "Work Schedule"
     },
