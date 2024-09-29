@@ -55,43 +55,61 @@ let currentQuestion = 0;
 let scores = { Collaborative: 0, Traditional: 0, Innovative: 0, Remote: 0 };
 let userAnswers = [];
 
+const startPageEl = document.getElementById("start-page");
+const startQuizBtn = document.getElementById("start-quiz");
 const questionEl = document.getElementById("question");
 const choicesEl = document.getElementById("choices");
 const quizEl = document.getElementById("quiz");
 const resultsEl = document.getElementById("results");
 const restartBtn = document.getElementById("restart");
 const downloadPDFBtn = document.getElementById("downloadPDF");
+const progressBarEl = document.getElementById("progress-bar");
+const progressTextEl = document.getElementById("progress-text");
 
-function loadQuestion() {
-    const question = quizData[currentQuestion];
-    questionEl.textContent = question.question;
+startQuizBtn.addEventListener("click", startQuiz);
 
-    choicesEl.innerHTML = "";
-    question.choices.forEach((choice, index) => {
-        const button = document.createElement("button");
-        button.textContent = choice.text;
-        button.addEventListener("click", () => selectChoice(index));
-        choicesEl.appendChild(button);
-    });
+function startQuiz() {
+    startPageEl.style.display = "none";
+    quizEl.style.display = "block";
+    loadQuestion();
 }
 
-function selectChoice(index) {
-    userAnswers.push(index);
-
-    const question = quizData[currentQuestion];
-    const selectedChoice = question.choices[index];
-
-    for (const [category, weight] of Object.entries(selectedChoice.weight)) {
-        scores[category] += weight;
-    }
-
-    currentQuestion++;
-
+function loadQuestion() {
     if (currentQuestion < quizData.length) {
-        loadQuestion();
+        const question = quizData[currentQuestion];
+        questionEl.textContent = question.question;
+
+        choicesEl.innerHTML = "";
+        question.choices.forEach((choice, index) => {
+            const button = document.createElement("button");
+            button.textContent = choice.text;
+            button.addEventListener("click", () => selectChoice(index));
+            choicesEl.appendChild(button);
+        });
+
+        updateProgressBar();
     } else {
         showResults();
     }
+}
+
+function selectChoice(index) {
+    const question = quizData[currentQuestion];
+    const selectedChoice = question.choices[index];
+
+    Object.entries(selectedChoice.weight).forEach(([category, weight]) => {
+        scores[category] += weight;
+    });
+
+    userAnswers.push(index);
+    currentQuestion++;
+    loadQuestion();
+}
+
+function updateProgressBar() {
+    const progress = (currentQuestion / quizData.length) * 100;
+    progressBarEl.style.width = `${progress}%`;
+    progressTextEl.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
 }
 
 function showResults() {
@@ -99,39 +117,49 @@ function showResults() {
     resultsEl.style.display = "block";
 
     const categories = Object.keys(scores);
-    const maxScore = quizData.length * 3; // Assuming max weight is 3
+    const maxScore = quizData.length * 3; // Maximum possible score per category
     const categoryScores = categories.map(category => (scores[category] / maxScore) * 100);
 
-    const ctx = document.getElementById('radarChart').getContext('2d');
+    const ctx = document.getElementById('polarChart').getContext('2d');
     new Chart(ctx, {
-        type: 'radar',
+        type: 'polarArea',
         data: {
             labels: categories,
             datasets: [{
-                label: 'Your Work Style Profile',
+                label: 'Your Work Style',
                 data: categoryScores,
-                backgroundColor: 'rgba(255, 196, 51, 0.2)',
-                borderColor: 'rgb(255, 196, 51)',
-                pointBackgroundColor: 'rgb(255, 196, 51)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(255, 196, 51)'
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
             }]
         },
         options: {
-            elements: {
-                line: {
-                    borderWidth: 3
-                }
-            },
+            responsive: true,
             scales: {
                 r: {
-                    angleLines: {
-                        display: false
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 100
+                    pointLabels: {
+                        display: true,
+                        centerPointLabels: true,
+                        font: {
+                            size: 18
+                        }
+                    }
                 }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
             }
         }
     });
@@ -141,30 +169,29 @@ function restartQuiz() {
     currentQuestion = 0;
     scores = { Collaborative: 0, Traditional: 0, Innovative: 0, Remote: 0 };
     userAnswers = [];
-    quizEl.style.display = "block";
     resultsEl.style.display = "none";
-    loadQuestion();
+    startPageEl.style.display = "block";
 }
 
 function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-// Add Poppins font
+    // Add Poppins font
     doc.addFont('https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLDz8V1tvFP-KUEg.ttf', 'Poppins', 'normal');
     doc.addFont('https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLGT9V1tvFP-KUEg.ttf', 'Poppins', 'bold');
     doc.setFont('Poppins');
 
     // Add logo to the PDF
     const logoImg = new Image();
-    logoImg.src = 'logo';
+    logoImg.src = 'logo.png';
     logoImg.onload = function() {
         const imgWidth = 30;
         const imgHeight = (logoImg.height * imgWidth) / logoImg.width;
         const pageWidth = doc.internal.pageSize.getWidth();
         doc.addImage(logoImg, 'PNG', pageWidth - imgWidth - 10, 10, imgWidth, imgHeight);
 
-		doc.setFontSize(20);
+        doc.setFontSize(20);
         doc.setFont('Poppins', 'bold');
         doc.text("Work Style Profile Results", 105, 25, null, null, "center");
 
@@ -175,24 +202,24 @@ function generatePDF() {
         yPos += 10;
 
         const categories = Object.keys(scores);
-        const maxScore = quizData.length * 3; // Assuming max weight is 3
+        const maxScore = quizData.length * 3; // Maximum possible score per category
 
         categories.forEach(category => {
             const score = (scores[category] / maxScore) * 100;
-            doc.text(`${category}: ${score.toFixed(2)}%`, 30, yPos);
+            doc.text(`${category}: ${score.toFixed(0)}%`, 30, yPos);
             yPos += 10;
         });
 
-		yPos += 10;
+        yPos += 10;
         doc.setFont('Poppins', 'bold');
         doc.text("Additional Information", 20, yPos);
         yPos += 10;
-        doc.setFont('Poppins', 'light');
-        doc.setFontSize(12);
+        doc.setFont('Poppins', 'normal');
+        doc.setFontSize(10);
         const additionalText = [
             "This quiz assesses your work style preferences across different categories.",
             "The scores reflect your tendencies towards each work style.",
-            "Your profile is visualized in the radar chart on the next page.",
+            "Your profile is visualized in the polar chart on the next page.",
             "Use these insights to understand and optimize your work environment!"
         ];
         additionalText.forEach(text => {
@@ -200,13 +227,13 @@ function generatePDF() {
             yPos += 10;
         });
 
-        html2canvas(document.getElementById("radarChart")).then(canvas => {
+        html2canvas(document.getElementById("polarChart")).then(canvas => {
             const imgData = canvas.toDataURL("image/png");
             const imgWidth = 150;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
             doc.addPage();
             doc.addImage(imgData, "PNG", 15, 20, imgWidth, imgHeight);
-            doc.save("work_style_profile.pdf");
+            doc.save("Work_Style_Results.pdf");
 
             notifyPDFDownload();
         });
@@ -221,4 +248,7 @@ function notifyPDFDownload() {
 restartBtn.addEventListener("click", restartQuiz);
 downloadPDFBtn.addEventListener("click", generatePDF);
 
-loadQuestion();
+// Initialize the quiz
+startPageEl.style.display = "block";
+quizEl.style.display = "none";
+resultsEl.style.display = "none";
