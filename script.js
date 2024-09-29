@@ -224,7 +224,7 @@ function generatePDF() {
         doc.text("Additional Information", 20, yPos);
         yPos += 10;
         doc.setFont('Poppins', 'normal');
-        doc.setFontSize(10);
+        doc.setFontSize(12);
         const additionalText = [
             "This quiz assessed your work style preferences across 4 different categories: Collaborative, Traditional, Innovative, and Remote",
             "The scores reflect your tendencies towards each work style, though they may change depending on your work environment.",
