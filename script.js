@@ -53,6 +53,7 @@ const quizData = [
 
 let currentQuestion = 0;
 let scores = { Collaborative: 0, Traditional: 0, Innovative: 0, Remote: 0 };
+let maxPossibleScores = { Collaborative: 0, Traditional: 0, Innovative: 0, Remote: 0 };
 let userAnswers = [];
 
 const startPageEl = document.getElementById("start-page");
@@ -101,6 +102,13 @@ function selectChoice(index) {
         scores[category] += weight;
     });
 
+    // Calculate max possible scores
+    question.choices.forEach(choice => {
+        Object.entries(choice.weight).forEach(([category, weight]) => {
+            maxPossibleScores[category] += weight;
+        });
+    });
+
     userAnswers.push(index);
     currentQuestion++;
     loadQuestion();
@@ -117,8 +125,7 @@ function showResults() {
     resultsEl.style.display = "block";
 
     const categories = Object.keys(scores);
-    const maxScore = quizData.length * 3; // Maximum possible score per category
-    const categoryScores = categories.map(category => (scores[category] / maxScore) * 100);
+    const categoryScores = categories.map(category => (scores[category] / maxPossibleScores[category]) * 100);
 
     const ctx = document.getElementById('polarChart').getContext('2d');
     new Chart(ctx, {
@@ -153,7 +160,9 @@ function showResults() {
                         font: {
                             size: 18
                         }
-                    }
+                    },
+                    beginAtZero: true,
+                    max: 50
                 }
             },
             plugins: {
@@ -168,6 +177,7 @@ function showResults() {
 function restartQuiz() {
     currentQuestion = 0;
     scores = { Collaborative: 0, Traditional: 0, Innovative: 0, Remote: 0 };
+    maxPossibleScores = { Collaborative: 0, Traditional: 0, Innovative: 0, Remote: 0 };
     userAnswers = [];
     resultsEl.style.display = "none";
     startPageEl.style.display = "block";
@@ -202,10 +212,9 @@ function generatePDF() {
         yPos += 10;
 
         const categories = Object.keys(scores);
-        const maxScore = quizData.length * 3; // Maximum possible score per category
 
         categories.forEach(category => {
-            const score = (scores[category] / maxScore) * 100;
+            const score = (scores[category] / maxPossibleScores[category]) * 100;
             doc.text(`${category}: ${score.toFixed(0)}%`, 30, yPos);
             yPos += 10;
         });
@@ -252,3 +261,6 @@ downloadPDFBtn.addEventListener("click", generatePDF);
 startPageEl.style.display = "block";
 quizEl.style.display = "none";
 resultsEl.style.display = "none";
+
+// Start loading the first question
+loadQuestion();
