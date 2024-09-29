@@ -226,11 +226,13 @@ function generatePDF() {
         doc.setFont('Poppins', 'normal');
         doc.setFontSize(12);
         const additionalText = [
-            "This quiz assessed your work style preferences across 4 different categories: Collaborative, Traditional, Innovative, and Remote",
-            "The scores reflect your tendencies towards each work style, though they may change depending on your work environment.",
-            "You can use these insights to understand and optimize your work environment. Start by sharing the quiz with your team and share the results. Next, discuss how to best interact with each other.",
-            "You can use physical whiteboards or digital tools like Miro to jot down ideas and decide how you can work effectively together as a team. Reach out to me at hello@culture-coach.org if you want some help getting started.",
-            "Your profile is visualized in the polar chart on the next page.",
+        "This quiz assessed your work style preferences across 4 different categories: Collaborative, Traditional, Innovative, and Remote",
+        "The scores reflect your tendencies towards each work style, though they may change depending on your work environment.",
+        "You can use these insights to understand and optimize your work environment. Start by sharing the quiz with your team and share the results.",
+        "Next, discuss how to best interact with each other.",
+        "You can use physical whiteboards or digital tools like Miro to jot down ideas and decide how you can work effectively together as a team.",
+        "Reach out to me at hello@culture-coach.org if you want some help getting started.",
+        "Your profile is visualized in the polar chart on the next page.",
 
         ];
         additionalText.forEach(text => {
