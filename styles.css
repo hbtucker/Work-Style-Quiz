@@ -1,5 +1,5 @@
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Manrope', sans-serif;
     color: #1f1f1f;
     font-weight: 100;
     line-height: 1.6;
@@ -9,7 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #FFC433;
+    background-color: transparent;
 }
 
 .container {
@@ -63,9 +63,8 @@ button {
 }
 
 button:hover {
-    background-color: #ffc433;
+    background-color: #4f9768;
     color:#1f1f1f;
-    border: 0px solid grey;
 }
 
 #results {
@@ -99,7 +98,7 @@ button:hover {
 }
 
 #restart:hover {
-    background-color: #1f1f1f;
+    background-color: #4f9768;
     color: white;
 }
 
@@ -113,7 +112,7 @@ button:hover {
 #progress-bar {
     width: 0;
     height: 10px;
-    background-color: #FFC433;
+    background-color: #4f9768;
     border-radius: 5px;
     transition: width 0.3s ease-in-out;
 }
@@ -131,6 +130,7 @@ button:hover {
     text-align: left;
     font-size: 16px;
     line-height: 1.6;
+    text-align: center;
 }
 
 #start-quiz {
@@ -140,6 +140,6 @@ button:hover {
 }
 
 #start-quiz:hover {
-    background-color: #00cd9a;
+    background-color: #4f9768;
     color: white;
 }
